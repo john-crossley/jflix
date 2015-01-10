@@ -14,7 +14,28 @@
 
     <script type="text/jsx">
 
-        var data = [{"_id":"54b0959dfd90d3d74d8ffc65","path":"/Volumes/HULK/TV Shows/New Girl/Season 3/New Girl - S03E02 - Nerd.mkv","slug":"new-girl-s03e02-nerd","__v":0},{"_id":"54b0959dfd90d3d74d8ffc66","path":"/Volumes/HULK/TV Shows/New Girl/Season 3/New Girl - S03E03 - Double Date.mkv","slug":"new-girl-s03e03-double-date","__v":0},{"_id":"54b0959dfd90d3d74d8ffc67","path":"/Volumes/HULK/TV Shows/New Girl/Season 3/New Girl - S03E04 - The Captain.mkv","slug":"new-girl-s03e04-the-captain","__v":0},{"_id":"54b0959dfd90d3d74d8ffc68","path":"/Volumes/HULK/TV Shows/New Girl/Season 3/New Girl - S03E05 - The Box.mkv","slug":"new-girl-s03e05-the-box","__v":0}];
+        var data = [];
+
+        var SearchForm = React.createClass({
+            handleSubmit: function (e) {
+                e.preventDefault();
+                var searchTerm = this.refs.searchTerm.getDOMNode().value.trim();
+                if (! searchTerm) {
+                    return;
+                }
+
+                this.props.onSearchSubmit({term: searchTerm});
+                this.refs.searchTerm.getDOMNode().value = '';
+            },
+            render: function() {
+                return (
+                    <form className="search-form" onSubmit={this.handleSubmit}>
+                        <input type="text" placeholder="Search for media..." ref="searchTerm" />
+                        <input type="submit" value="Search!" />
+                    </form>
+                );
+            }
+        });
 
         var Item = React.createClass({
             render: function () {
@@ -44,17 +65,38 @@
         });
 
         var SearchBox = React.createClass({
+            getInitialState: function() {
+                return {data: []};
+            },
+            handleSearchSubmit: function(search) {
+                $.ajax({
+                    url: '/search/' + search.term,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function(data) {
+                        console.log(data);
+                        this.setState({data: data});
+                    }.bind(this),
+                    error: function(xhr, status, err) {
+                        console.error('/search/' + search.term, status, err.toString());
+                    }.bind(this)
+                });
+            },
             render: function() {
                 return (
                     <div className="searchBox">
                         <h1>Search Component</h1>
-                        <ItemList data={this.props.data} />
+                        <SearchForm onSearchSubmit={this.handleSearchSubmit} />
+                        <ItemList data={this.state.data} />
                     </div>
                 );
             }
         });
 
-        React.render(<SearchBox data={data} />, document.getElementById('content'));
+        React.render(
+            <SearchBox data={data} />,
+            document.getElementById('content')
+        );
     </script>
 
 </body>
