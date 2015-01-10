@@ -14,8 +14,6 @@
 
     <script type="text/jsx">
 
-        var data = [];
-
         var SearchForm = React.createClass({
             handleSubmit: function (e) {
                 e.preventDefault();
@@ -94,7 +92,7 @@
         });
 
         React.render(
-            <SearchBox data={data} />,
+            <SearchBox />,
             document.getElementById('content')
         );
     </script>
