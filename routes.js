@@ -2,7 +2,8 @@ var JSX = require('node-jsx').install(),
     React = require('react'),
     SearchBox = require('./components/SearchBox.react'),
     Media = require('./models/Media'),
-    Config = require('./config');
+    Config = require('./config'),
+    recursive = require('recursive-readdir');
 
 module.exports = {
     index: function(req, res) {
@@ -30,6 +31,14 @@ module.exports = {
     list: function(req, res) {
 
         var drivePath = Config.drivePath;
+
+        recursive(drivePath, ['.*'], function(err, files) {
+
+        });
+
+        res.status(200).json({
+            data: drivePath
+        });
 
         // Media.getMedia( function (media) {
         //     res.send(media);
