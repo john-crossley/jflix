@@ -1,4 +1,4 @@
-var Utility = require('../lib/utility');
+var Utility = require('../lib/file-utility');
 
 describe('When converting a file path to a slug', function() {
 
