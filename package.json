@@ -7,7 +7,8 @@
     "watch": "watchify app.js -o public/js/bundle.js -v",
     "browserify": "browserify app.js | uglifyjs > public/js/bundle.js",
     "build": "npm run browserify",
-    "start": "npm run watch & nodemon server.js"
+    "start": "npm run watch & nodemon server.js",
+    "test": "mocha specs --require specs/helpers/chai.js --reporter spec"
   },
   "author": "John Crossley",
   "license": "MIT",
@@ -22,7 +23,6 @@
   "devDependencies": {
     "browserify": "~6.0.3",
     "chai": "^1.10.0",
-    "grunt-mocha-test": "^0.12.6",
     "mocha": "^2.1.0",
     "nodemon": "^1.2.1",
     "reactify": "~0.14.0",
