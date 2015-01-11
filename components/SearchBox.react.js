@@ -9,18 +9,18 @@ var SearchBox = React.createClass({
         return {data: []};
     },
     handleSearchSubmit: function(search) {
-        $.ajax({
-            url: '/search/' + search.term,
-            dataType: 'json',
-            type: 'GET',
-            success: function(data) {
-                console.log(data);
-                this.setState({data: data});
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error('/search/' + search.term, status, err.toString());
-            }.bind(this)
-        });
+        var request = new XMLHttpRequest(),
+            $this = this;
+        request.open('GET', '/search/' + search.term, true);
+        request.onload = function () {
+            if (request.status >= 200 && request.status < 400) {
+                $this.setState({data: JSON.parse(request.responseText)});
+            } else {
+                console.log("Something went wrong");
+            }
+        };
+
+        request.send();
     },
     render: function() {
         return (

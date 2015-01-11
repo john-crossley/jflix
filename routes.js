@@ -16,6 +16,17 @@ module.exports = {
         });
     },
 
+    search: function(req, res) {
+        var searchTerm = req.params.term;
+
+        var data = [{
+            path: "/Somepath/to/video",
+            slug: "some-slug-name"
+        }];
+
+        res.status(200).json(data);
+    },
+
     list: function(req, res) {
 
         var drivePath = Config.drivePath;
