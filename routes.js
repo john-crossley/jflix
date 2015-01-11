@@ -2,6 +2,7 @@ var JSX = require('node-jsx').install(),
     React = require('react'),
     SearchBox = require('./components/SearchBox.react'),
     Media = require('./models/Media'),
+    FileUtility = require('./lib/file-utility'),
     Config = require('./config'),
     recursive = require('recursive-readdir');
 
@@ -18,30 +19,85 @@ module.exports = {
     },
 
     search: function(req, res) {
-        var searchTerm = req.params.term;
+        var regex = new RegExp(req.params.term, 'i');
 
-        var data = [{
-            path: "/Somepath/to/video",
-            slug: "some-slug-name"
-        }];
-
-        res.status(200).json(data);
+        Media.find({path: regex}, function(err, documents) {
+            if (err) {
+                res.status(500).json({
+                    error: true,
+                    message: err.toString()
+                });
+            }
+            res.status(200).json(documents);
+        });
     },
 
     list: function(req, res) {
 
-        var drivePath = Config.drivePath;
+        recursive(Config.drivePath, ['.*'], function(err, files) {
+            var utility = new Utility(),
+                data = [];
 
-        recursive(drivePath, ['.*'], function(err, files) {
+            files.map(function(file) {
+                data.push(utility.getFilenameSlugFromPath(file));
+            });
 
+            res.status(200).json({
+                data: data
+            });
         });
 
-        res.status(200).json({
-            data: drivePath
-        });
+    },
 
-        // Media.getMedia( function (media) {
-        //     res.send(media);
-        // });
+    pureAndInitialise: function(req, res) {
+        Media.remove({}, function(err) {
+            if (err) {
+                res.status(500).json({
+                    error: true,
+                    message: err.toString()
+                });
+            }
+            console.log("All media has been removed...");
+
+            recursive(Config.drivePath, ['.*'], function(err, files) {
+
+                if (err) {
+                    res.status(500).json({
+                        error: true,
+                        message: 'Something went wrong.. Check media path: ' + Config.drivePath
+                    });
+                }
+
+                var fileUtility = new FileUtility();
+
+                var data = files.map(function(file) {
+
+                    fileUtility.setPath(file);
+
+                    var media = new Media();
+                    media.slug = fileUtility.getSlug();
+                    media.path = file;
+                    media.filename = fileUtility.getFilename();
+
+                    media.save(function(err) {
+                        if (err) {
+                            res.status(500).json({
+                                error: true,
+                                message: err.toString()
+                            });
+                        }
+                        console.log('Saved: ' + media.slug);
+                    });
+
+                    return media;
+                });
+
+                res.status(201).json({
+                    error: false,
+                    message: data
+                });
+
+            });
+        });
     }
 };

@@ -8,7 +8,7 @@ var ItemList = React.createClass({
 
         var itemNodes = this.props.data.map( function (item) {
             return (
-                <Item id={item._id} slug={item.slug} />
+                <Item id={item._id} slug={item.filename} />
             );
         });
 

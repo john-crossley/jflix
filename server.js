@@ -24,6 +24,7 @@ mongoose.connect('mongodb://localhost/jflix');
 app.get('/', routes.index);
 // app.get('/play/:id', routes.play);
 app.get('/search/:term', routes.search);
+app.post('/purge-and-initialise', routes.pureAndInitialise);
 
 app.get('/list', routes.list);
 
