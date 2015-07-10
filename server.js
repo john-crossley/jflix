@@ -4,7 +4,8 @@ var express = require('express'),
     http = require('http'),
     mongoose = require('mongoose'),
     routes = require('./routes'),
-    config = require('./config');
+    config = require('./config'),
+    Streamer = require('./streamer');
 
 // Create an express instance and set a port variable
 var app = express();
@@ -22,7 +23,10 @@ mongoose.connect('mongodb://localhost/jflix');
 
 // Routes
 app.get('/', routes.index);
-// app.get('/play/:id', routes.play);
+
+app.get('/play/:id', routes.play);
+app.get('/stream/:id', routes.stream);
+
 app.get('/search/:term', routes.search);
 app.post('/purge-and-initialise', routes.pureAndInitialise);
 

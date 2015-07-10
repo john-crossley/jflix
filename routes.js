@@ -18,6 +18,19 @@ module.exports = {
         });
     },
 
+    play: function(req, res) {
+        res.render('play', {
+            video: req.params.id
+        });
+    },
+
+    stream: function(req, res) {
+        Media.find({_id: req.params.id}, function(err, media) {
+            Streamer.setMediaPath(media[0].path);
+            Streamer.stream(req, res);
+        });
+    },
+
     search: function(req, res) {
         var regex = new RegExp(req.params.term, 'i');
 
@@ -33,20 +46,17 @@ module.exports = {
     },
 
     list: function(req, res) {
-
         recursive(Config.drivePath, ['.*'], function(err, files) {
-            var utility = new Utility(),
-                data = [];
+            var data = [];
 
             files.map(function(file) {
-                data.push(utility.getFilenameSlugFromPath(file));
+                data.push(files);
             });
 
             res.status(200).json({
                 data: data
             });
         });
-
     },
 
     pureAndInitialise: function(req, res) {

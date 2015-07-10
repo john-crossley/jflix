@@ -1,11 +1,10 @@
 var Utility = require('../lib/file-utility');
 
-describe('When converting a file path to a slug', function() {
+describe('File Utility', function() {
 
-    var utility;
-
-    before(function() {
+    beforeEach(function() {
         utility = new Utility(),
+
         pathData = [{
             path: '/Volumes/HULK/TV Shows/Season 01/QI Season G Episode 01 Garden (XL).avi',
             slug: 'qi-season-g-episode-01-garden-xl',
@@ -31,13 +30,14 @@ describe('When converting a file path to a slug', function() {
             slug: 'name-of-program',
             filename: 'Name of program!?'
         }];
+
     });
 
     it('should return the correct slug name from the file path', function() {
         pathData.forEach(function(data) {
             utility.setPath(data.path);
             var slug = utility.getSlug();
-            expect(slug).equal(data.slug);
+            expect(slug).toEqual(data.slug);
         });
     });
 
@@ -45,7 +45,7 @@ describe('When converting a file path to a slug', function() {
         pathData.forEach(function(data) {
             utility.setPath(data.path);
             var filename = utility.getFilename();
-            expect(filename).equal(data.filename);
+            expect(filename).toEqual(data.filename);
         });
     });
 
