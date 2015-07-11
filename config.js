@@ -1,5 +1,5 @@
 var Config = {
-    drivePath: '/Users/Jonno/Downloads/',
+    drivePath: '/Volumes/HULK/Movies/',
     mongodb: 'mongodb://localhost:27017/jflix'
 };
 

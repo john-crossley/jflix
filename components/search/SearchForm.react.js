@@ -3,6 +3,7 @@
 var React = require('react');
 
 var SearchForm = React.createClass({
+
     handleSubmit: function (e) {
         e.preventDefault();
         var searchTerm = this.refs.searchTerm.getDOMNode().value.trim();
@@ -11,7 +12,7 @@ var SearchForm = React.createClass({
         }
 
         this.props.onSearchSubmit({term: searchTerm});
-        this.refs.searchTerm.getDOMNode().value = '';
+        this.refs.searchTerm.getDOMNode().value = searchTerm;
     },
     render: function() {
         return (

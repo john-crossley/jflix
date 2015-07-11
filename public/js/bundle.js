@@ -2,7 +2,7 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-var SearchBox = require('./components/SearchBox.react');
+var SearchBox = require('./components/search/SearchBox.react');
 
 // Render the components, picking up where react left off on the server
 React.renderComponent(
@@ -10,7 +10,7 @@ React.renderComponent(
   document.getElementById('react-app')
 );
 
-},{"./components/SearchBox.react":"/Users/Jonno/workspace/personal/jflix/components/SearchBox.react.js","react":"/Users/Jonno/workspace/personal/jflix/node_modules/react/react.js"}],"/Users/Jonno/workspace/personal/jflix/components/Item.react.js":[function(require,module,exports){
+},{"./components/search/SearchBox.react":"/Users/Jonno/workspace/personal/jflix/components/search/SearchBox.react.js","react":"/Users/Jonno/workspace/personal/jflix/node_modules/react/react.js"}],"/Users/Jonno/workspace/personal/jflix/components/item/Item.react.js":[function(require,module,exports){
 /** @jsx React.DOM */
 
 var React = require('react');
@@ -26,7 +26,8 @@ var Item = React.createClass({displayName: 'Item',
 });
 
 module.exports = Item;
-},{"react":"/Users/Jonno/workspace/personal/jflix/node_modules/react/react.js"}],"/Users/Jonno/workspace/personal/jflix/components/ItemList.react.js":[function(require,module,exports){
+
+},{"react":"/Users/Jonno/workspace/personal/jflix/node_modules/react/react.js"}],"/Users/Jonno/workspace/personal/jflix/components/item/ItemList.react.js":[function(require,module,exports){
 /** @jsx React.DOM */
 
 var React = require('react');
@@ -50,12 +51,12 @@ var ItemList = React.createClass({displayName: 'ItemList',
 });
 
 module.exports = ItemList;
-},{"./Item.react":"/Users/Jonno/workspace/personal/jflix/components/Item.react.js","react":"/Users/Jonno/workspace/personal/jflix/node_modules/react/react.js"}],"/Users/Jonno/workspace/personal/jflix/components/SearchBox.react.js":[function(require,module,exports){
+},{"./Item.react":"/Users/Jonno/workspace/personal/jflix/components/item/Item.react.js","react":"/Users/Jonno/workspace/personal/jflix/node_modules/react/react.js"}],"/Users/Jonno/workspace/personal/jflix/components/search/SearchBox.react.js":[function(require,module,exports){
 /** @jsx React.DOM */
 
 var React = require('react');
 var SearchForm = require('./SearchForm.react');
-var ItemList = require('./ItemList.react');
+var ItemList = require('../item/ItemList.react');
 
 var SearchBox = React.createClass({displayName: 'SearchBox',
     getInitialState: function() {
@@ -87,12 +88,14 @@ var SearchBox = React.createClass({displayName: 'SearchBox',
 });
 
 module.exports = SearchBox;
-},{"./ItemList.react":"/Users/Jonno/workspace/personal/jflix/components/ItemList.react.js","./SearchForm.react":"/Users/Jonno/workspace/personal/jflix/components/SearchForm.react.js","react":"/Users/Jonno/workspace/personal/jflix/node_modules/react/react.js"}],"/Users/Jonno/workspace/personal/jflix/components/SearchForm.react.js":[function(require,module,exports){
+
+},{"../item/ItemList.react":"/Users/Jonno/workspace/personal/jflix/components/item/ItemList.react.js","./SearchForm.react":"/Users/Jonno/workspace/personal/jflix/components/search/SearchForm.react.js","react":"/Users/Jonno/workspace/personal/jflix/node_modules/react/react.js"}],"/Users/Jonno/workspace/personal/jflix/components/search/SearchForm.react.js":[function(require,module,exports){
 /** @jsx React.DOM */
 
 var React = require('react');
 
 var SearchForm = React.createClass({displayName: 'SearchForm',
+
     handleSubmit: function (e) {
         e.preventDefault();
         var searchTerm = this.refs.searchTerm.getDOMNode().value.trim();
@@ -101,7 +104,7 @@ var SearchForm = React.createClass({displayName: 'SearchForm',
         }
 
         this.props.onSearchSubmit({term: searchTerm});
-        this.refs.searchTerm.getDOMNode().value = '';
+        this.refs.searchTerm.getDOMNode().value = searchTerm;
     },
     render: function() {
         return (
@@ -114,6 +117,7 @@ var SearchForm = React.createClass({displayName: 'SearchForm',
 });
 
 module.exports = SearchForm;
+
 },{"react":"/Users/Jonno/workspace/personal/jflix/node_modules/react/react.js"}],"/Users/Jonno/workspace/personal/jflix/node_modules/react/lib/AutoFocusMixin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014 Facebook, Inc.

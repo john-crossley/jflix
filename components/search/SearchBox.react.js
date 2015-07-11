@@ -2,7 +2,7 @@
 
 var React = require('react');
 var SearchForm = require('./SearchForm.react');
-var ItemList = require('./ItemList.react');
+var ItemList = require('../item/ItemList.react');
 
 var SearchBox = React.createClass({
     getInitialState: function() {

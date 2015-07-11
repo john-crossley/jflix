@@ -1,10 +1,14 @@
 var JSX = require('node-jsx').install(),
     React = require('react'),
-    SearchBox = require('./components/SearchBox.react'),
+    SearchBox = require('./components/search/SearchBox.react'),
+    Video = require('./components/video/Video.react'),
+
     Media = require('./models/Media'),
     FileUtility = require('./lib/file-utility'),
     Config = require('./config'),
-    recursive = require('recursive-readdir');
+    recursive = require('recursive-readdir'),
+
+    Streamer = require('./streamer');
 
 module.exports = {
     index: function(req, res) {
@@ -13,15 +17,18 @@ module.exports = {
             SearchBox()
         );
 
-        res.render('home', {
-            markup: markup
-        });
+        res.render('app', {markup: markup});
     },
 
     play: function(req, res) {
-        res.render('play', {
-            video: req.params.id
-        });
+
+        var markup = React.renderComponentToString(
+            Video({
+                url: req.params.id
+            })
+        );
+
+        res.render('app', {markup: markup});
     },
 
     stream: function(req, res) {
